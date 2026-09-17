@@ -62,3 +62,53 @@ ip dhcp pool OFFICE-LAN
 
 end
 write memory
+#Switch Configuration
+enable
+configure terminal
+hostname Office-Switch
+
+interface vlan 1
+ ip address 192.168.10.2 255.255.255.0
+ no shutdown
+ exit
+ip default-gateway 192.168.10.1
+
+interface range FastEthernet0/1 - 16
+ switchport mode access
+ no shutdown
+ exit
+
+end
+write memory
+#Server Configuration
+Server Configuration
+IP Address: 192.168.10.10
+
+Subnet Mask: 255.255.255.0
+
+Default Gateway: 192.168.10.1
+
+DNS Server: 192.168.10.10
+#Test Results
+#Test 1 - PC receives IP automatically
+C:\> ipconfig
+IPv4 Address................: 192.168.10.100
+Subnet Mask.................: 255.255.255.0
+Default Gateway.............: 192.168.10.1
+DNS Server..................: 192.168.10.10
+PASS
+#Test 2 - Ping Default Gateway
+C:\> ping 192.168.10.1
+Reply from 192.168.10.1: bytes=32 time<1ms TTL=255 (x4)
+Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)
+PASS
+#Test 3 - Ping Server
+C:\> ping 192.168.10.10
+Reply from 192.168.10.10: bytes=32 time<1ms TTL=128 (x4)
+Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)
+PASS
+#Test 4 - PC-to-PC Communication
+C:\> ping 192.168.10.101
+Reply from 192.168.10.101: bytes=32 time<1ms TTL=128 (x4)
+Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)
+PASS
